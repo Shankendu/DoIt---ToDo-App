@@ -1,0 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+* {
+  font-family: "Outfit", serif;
+}
+
+ .active{
+  color: #357937;
+  background-color: #35793729;
+  border-radius: 50px;
+}
+
+*{
+  scrollbar-width: none;
+}
