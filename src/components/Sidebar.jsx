@@ -11,10 +11,10 @@ const Sidebar = ({ name, length }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("login")
-    localStorage.removeItem("user")
-    navigate('/login')
-  }
+    localStorage.removeItem("login");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
 
   return (
     <div
@@ -31,11 +31,17 @@ const Sidebar = ({ name, length }) => {
           <p className="font-medium pt-2 dark:text-[#EBEBEB] text-[#1B281B]">
             Hey, {user.name}
           </p>
-          <div className="hidden group-hover:flex absolute w-[100px] flex-col items-center justify-center top-20 z-20 shadow-lg text-center">
-            <div className="px-4 py-2 w-full border-b border-b-[#496e4b33] cursor-pointer bg-white hover:bg-gray-100 transition-all duration-300">
+          <div className="top-0 opacity-0 group-hover:opacity-100 group-hover:flex group-hover:top-20 absolute w-[100px] flex-col items-center justify-center z-20 shadow-lg text-center transition-all duration-300">
+            <div
+              onClick={() => navigate("/profile")}
+              className="px-4 py-2 w-full border-b border-b-[#496e4b33] cursor-pointer bg-white hover:bg-gray-100 transition-all duration-300"
+            >
               <p className="text-sm">My Profile</p>
             </div>
-            <div onClick={()=> handleLogout()} className="px-4 py-2 cursor-pointer w-full text-red-500 bg-white hover:bg-gray-100 transition-all duration-300">
+            <div
+              onClick={() => handleLogout()}
+              className="px-4 py-2 cursor-pointer w-full text-red-500 bg-white hover:bg-gray-100 transition-all duration-300"
+            >
               <p className="text-sm">Logout</p>
             </div>
           </div>

@@ -3,7 +3,7 @@ import { AppContext } from "../config/AppContext";
 import Sidebar from "./Sidebar";
 import { assets } from "../assets/assets";
 
-const Important = () => {
+const Planned = () => {
   const {
     menuOpen,
     isDarkMode,
@@ -11,7 +11,7 @@ const Important = () => {
     setTasks,
     isGrid,
     openButton,
-    setOpenButton, filteredTasks, importantTasks
+    setOpenButton, filteredTasks, plannedTasks
   } = useContext(AppContext);
 
   const handleChangeStar = (index) => {
@@ -24,7 +24,7 @@ const Important = () => {
 
   return (
     <div className={` flex h-screen ${menuOpen ? "gap-0" : "gap-12"}`}>
-      <Sidebar name={"Important Tasks"} length={importantTasks.length} />
+      <Sidebar name={"Planned Tasks"} length={plannedTasks.length} />
       {/* Main Screen */}
       <div
         className={`max-h-[calc(100vh-56px)] relative ${
@@ -36,7 +36,7 @@ const Important = () => {
           className={`pb-1 flex items-center gap-1 " border-b-[1.5px] border-b-[#496e4b33]`}
         >
           <p className="text-xs font-medium dark:text-[#97F69B] text-[#142E15]">
-            Important Tasks
+            Planned Tasks
           </p>
           <img
             onClick={() =>
@@ -58,10 +58,10 @@ const Important = () => {
               : "flex flex-col justify-between items-center w-full"
           }`}
         >
-          {filteredTasks.find((task) => !task.isCompleted && task.important) ? (
+          {filteredTasks.find((task) => !task.isCompleted && task.isPlanned) ? (
             filteredTasks.map((task, index) => {
               return (
-                !task.isCompleted && task.important && (
+                !task.isCompleted && task.isPlanned && (
                   <div
                     key={index}
                     className={`${openButton.openTask ? "hidden" : "block"} ${
@@ -151,10 +151,10 @@ const Important = () => {
 
         {/* Completed Task List */}
         <div>
-          {tasks.find((task) => task.isCompleted && task.important) ? (
+          {tasks.find((task) => task.isCompleted && task.isPlanned) ? (
             tasks.map((task, index) => {
               return (
-                task.isCompleted && task.important && (
+                task.isCompleted && task.isPlanned && (
                   <div
                     key={index}
                     className={` border-b-[1.5px] border-b-[#496e4b33] py-4 pr-8 pl-[20px] flex justify-between ${
@@ -221,4 +221,4 @@ const Important = () => {
   );
 };
 
-export default Important;
+export default Planned;

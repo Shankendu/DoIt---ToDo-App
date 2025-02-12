@@ -8,6 +8,8 @@ import Important from "../components/Important";
 import Chart from "../components/Chart";
 import TodayChart from "../components/TodayChart";
 import ImportantChart from "../components/ImportantChart";
+import Planned from "../components/Planned";
+import PlannedChart from "../components/PlannedChart";
 
 export const AppContext = createContext();
 
@@ -17,6 +19,7 @@ export const ContextProvider = (props) => {
   const [activeTab, setActiveTab] = useState(0);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [input, setInput] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
   const [search, setSearch] = useState("");
   const [isLogin, setIsLogin] = useState(
     localStorage.getItem("login") || false
@@ -39,6 +42,7 @@ export const ContextProvider = (props) => {
   const formattedDate = todayDate.toLocaleDateString("en-GB");
   const todayTask = tasks.filter((task) => task.date === formattedDate);
   const importantTasks = tasks.filter((task) => task.important);
+  const plannedTasks = tasks.filter((task) => task.isPlanned);
   const filteredTasks = tasks.filter(
     (task) =>
       task.text && task.text.toLowerCase().includes(search.toLowerCase())
@@ -51,7 +55,9 @@ export const ContextProvider = (props) => {
         text: input,
         isCompleted: false,
         important: false,
+        isPlanned: selectedDate !== null ? true : false,
         date: formattedDate,
+        plannedDate: selectedDate || null,
       };
       setTasks([...tasks, newTask]);
       setInput("");
@@ -110,12 +116,12 @@ export const ContextProvider = (props) => {
     },
     {
       name: "Planned",
-      component: Today,
+      component: Planned,
       image_light: assets.plan,
       image_dark: assets.plan_dark,
       active: assets.plan_active,
       active_dark: assets.plan_active_dark,
-      chart: Chart,
+      chart: PlannedChart,
       data: tasks,
     },
     {
@@ -154,8 +160,9 @@ export const ContextProvider = (props) => {
     setSearch,
     filteredTasks,
     isLogin,
-    setIsLogin, user, setUser
+    setIsLogin, user, setUser, formattedDate, importantTasks, selectedDate, setSelectedDate, plannedTasks
   };
+  
   return (
     <AppContext.Provider value={value}>{props.children}</AppContext.Provider>
   );

@@ -12,16 +12,17 @@ const Today = () => {
     isGrid,
     openButton,
     setOpenButton,
-    todayTask, filteredTasks
+    todayTask, filteredTasks, formattedDate
   } = useContext(AppContext);
 
 
   const handleChangeStar = (index) => {
-    let newTasks = [...todayTask];
+    let newTasks = [...tasks];
     newTasks[index].important = !newTasks[index].important;
-    setTasks([...tasks, newTasks]);
+    setTasks(newTasks);
     localStorage.setItem("tasks", JSON.stringify(newTasks));
   };
+
 
   return (
     <div className={` flex h-screen ${menuOpen ? "gap-0" : "gap-12"}`}>
@@ -43,7 +44,7 @@ const Today = () => {
             onClick={() =>
               setOpenButton((prev) => ({ ...prev, openTask: !prev.openTask }))
             }
-            className={`size-3 transition-all duration-500 ${
+            className={`size-3 transition-all duration-500 cursor-pointer ${
               openButton.openTask ? "rotate-0" : "rotate-180"
             }`}
             src={isDarkMode ? assets.arrow_dark : assets.arrow}
@@ -59,10 +60,10 @@ const Today = () => {
               : "flex flex-col justify-between w-full"
           }`}
         >
-          {filteredTasks.find((task) => !task.isCompleted) ? (
+          {filteredTasks.find((task) => !task.isCompleted && task.date === formattedDate) ? (
             filteredTasks.map((task, index) => {
               return (
-                !task.isCompleted && (
+                !task.isCompleted && task.date === formattedDate && (
                   <div
                     key={index}
                     className={`${openButton.openTask ? "hidden" : "block"} ${
@@ -79,7 +80,7 @@ const Today = () => {
                       }`}
                     >
                       <label
-                        className={`text-[#1B281B] dark:text-[#F5F5F5] flex items-center gap-4`}
+                        className={`text-[#1B281B] dark:text-[#F5F5F5] flex items-center gap-4 cursor-pointer`}
                       >
                         <input
                           className="size-5 appearance-none checked:appearance-auto border-2 border-[#1B281B] dark:border-[#F5F5F5] "
@@ -102,6 +103,7 @@ const Today = () => {
                       </label>
                       <img
                         onClick={() => handleChangeStar(index)}
+                        className="cursor-pointer"
                         src={
                           isDarkMode
                             ? task.important
@@ -141,7 +143,7 @@ const Today = () => {
                 openCompletedTask: !prev.openCompletedTask,
               }))
             }
-            className={`size-3 transition-all duration-500 ${
+            className={`size-3 transition-all duration-500 cursor-pointer ${
               openButton.openCompletedTask ? "rotate-0" : "rotate-180"
             }`}
             src={isDarkMode ? assets.arrow_dark : assets.arrow}
@@ -163,7 +165,7 @@ const Today = () => {
                   >
                     <section className="">
                       <label
-                        className={`text-neutral-600 dark:text-neutral-500 flex items-center gap-4 ${
+                        className={`text-neutral-600 dark:text-neutral-500 flex items-center gap-4 cursor-pointer ${
                           task.isCompleted ? "line-through" : ""
                         }`}
                       >
