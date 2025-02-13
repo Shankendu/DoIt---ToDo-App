@@ -3,7 +3,7 @@ import { AppContext } from "../config/AppContext";
 import Sidebar from "./Sidebar";
 import { assets } from "../assets/assets";
 
-const Today = () => {
+const Reminder = () => {
   const {
     menuOpen,
     isDarkMode,
@@ -11,22 +11,20 @@ const Today = () => {
     setTasks,
     isGrid,
     openButton,
-    setOpenButton,
-    todayTask, filteredTasks, formattedDate
+    setOpenButton, filteredTasks, reminderTasks
   } = useContext(AppContext);
-
 
   const handleChangeStar = (index) => {
     let newTasks = [...tasks];
     newTasks[index].important = !newTasks[index].important;
-    setTasks(newTasks);
+    setTasks(newTasks)
     localStorage.setItem("tasks", JSON.stringify(newTasks));
   };
 
 
   return (
     <div className={` flex h-[calc(100vh-50px)] md:h-[calc(100vh-57px)] ${menuOpen ? "gap-0" : "gap-12"}`}>
-      <Sidebar name={"Today's Task"} length={todayTask.length} />
+      <Sidebar name={"Reminder Tasks"} length={reminderTasks.length} />
       {/* Main Screen */}
       <div
         className={`min-h-[calc(100vh-57px)] overflow-y-scroll relative origin-top-right ${
@@ -38,7 +36,7 @@ const Today = () => {
           className={`px-1 flex items-center gap-1 " border-b-[1.5px] border-b-[#496e4b33]`}
         >
           <p className="text-xs font-medium dark:text-[#97F69B] text-[#142E15]">
-            Today&apos;s Tasks
+            Reminder Tasks
           </p>
           <img
             onClick={() =>
@@ -54,16 +52,16 @@ const Today = () => {
 
         {/* Task List */}
         <div
-          className={`overflow-scroll ${
+           className={`overflow-scroll ${
             isGrid
               ? "grid-cols-1 sm:grid-cols-2 grid md:grid-cols-3 items-center justify-start w-full gap-3 pt-3 text-sm md:text-base"
               : "flex flex-col justify-between items-center w-full "
           }`}
         >
-          {filteredTasks.find((task) => !task.isCompleted && task.date === formattedDate) ? (
+          {filteredTasks.find((task) => !task.isCompleted && task.reminder) ? (
             filteredTasks.map((task, index) => {
               return (
-                !task.isCompleted && task.date === formattedDate && (
+                !task.isCompleted && task.reminder && (
                   <div
                     key={index}
                     className={`${openButton.openTask ? "hidden" : "block"} ${
@@ -87,7 +85,7 @@ const Today = () => {
                           type="checkbox"
                           checked={task.isCompleted}
                           onChange={(e) => {
-                            let updatedTasks = todayTask.map((task, i) =>
+                            let updatedTasks = tasks.map((task, i) =>
                               i === index
                                 ? { ...task, isCompleted: e.target.checked }
                                 : task
@@ -153,10 +151,10 @@ const Today = () => {
 
         {/* Completed Task List */}
         <div className="text-xs md:text-base">
-          {todayTask.some((task) => task.isCompleted) ? (
-            todayTask.map((task, index) => {
+          {tasks.find((task) => task.isCompleted && task.reminder) ? (
+            tasks.map((task, index) => {
               return (
-                task.isCompleted && (
+                task.isCompleted && task.reminder && (
                   <div
                     key={index}
                     className={` border-b-[1.5px] border-b-[#496e4b33] py-4 pr-8 pl-[20px] flex justify-between ${
@@ -174,7 +172,7 @@ const Today = () => {
                           type="checkbox"
                           checked={task.isCompleted}
                           onChange={(e) => {
-                            let updatedTasks = todayTask.map((task, i) =>
+                            let updatedTasks = tasks.map((task, i) =>
                               i === index
                                 ? { ...task, isCompleted: e.target.checked }
                                 : task
@@ -223,4 +221,4 @@ const Today = () => {
   );
 };
 
-export default Today;
+export default Reminder;

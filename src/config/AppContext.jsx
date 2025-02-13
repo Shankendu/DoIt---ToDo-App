@@ -6,10 +6,8 @@ import Today from "../components/Today";
 import { assets } from "../assets/assets";
 import Important from "../components/Important";
 import Chart from "../components/Chart";
-import TodayChart from "../components/TodayChart";
-import ImportantChart from "../components/ImportantChart";
 import Planned from "../components/Planned";
-import PlannedChart from "../components/PlannedChart";
+import Reminder from "../components/Reminder";
 
 export const AppContext = createContext();
 
@@ -18,6 +16,7 @@ export const ContextProvider = (props) => {
   const [isGrid, setIsGrid] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [reminder, setReminder] = useState(false);
   const [input, setInput] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [search, setSearch] = useState("");
@@ -43,6 +42,7 @@ export const ContextProvider = (props) => {
   const todayTask = tasks.filter((task) => task.date === formattedDate);
   const importantTasks = tasks.filter((task) => task.important);
   const plannedTasks = tasks.filter((task) => task.isPlanned);
+  const reminderTasks = tasks.filter((task) => task.reminder);
   const filteredTasks = tasks.filter(
     (task) =>
       task.text && task.text.toLowerCase().includes(search.toLowerCase())
@@ -56,11 +56,13 @@ export const ContextProvider = (props) => {
         isCompleted: false,
         important: false,
         isPlanned: selectedDate !== null ? true : false,
+        reminder: reminder,
         date: formattedDate,
         plannedDate: selectedDate || null,
       };
       setTasks([...tasks, newTask]);
       setInput("");
+      setReminder(false);
       setError({ isError: false, text: "" });
     } else {
       setError({ isError: true, text: "Please enter a task" });
@@ -101,7 +103,7 @@ export const ContextProvider = (props) => {
       image_dark: assets.calendar_dark,
       active: assets.calendar_active,
       active_dark: assets.calendar_active_dark,
-      chart: TodayChart,
+      chart: Chart,
       data: todayTask,
     },
     {
@@ -111,7 +113,7 @@ export const ContextProvider = (props) => {
       image_dark: assets.star_dark,
       active: assets.star_active,
       active_dark: assets.star_active_dark,
-      chart: ImportantChart,
+      chart: Chart,
       data: importantTasks,
     },
     {
@@ -121,18 +123,18 @@ export const ContextProvider = (props) => {
       image_dark: assets.plan_dark,
       active: assets.plan_active,
       active_dark: assets.plan_active_dark,
-      chart: PlannedChart,
-      data: tasks,
+      chart: Chart,
+      data: plannedTasks,
     },
     {
-      name: "Assigned to me",
-      component: Today,
+      name: "Reminder",
+      component: Reminder,
       image_light: assets.assign,
       image_dark: assets.assign_dark,
       active: assets.assign_active,
       active_dark: assets.assign_active_dark,
       chart: Chart,
-      data: tasks,
+      data: reminderTasks,
     },
   ];
   let value = {
@@ -160,7 +162,7 @@ export const ContextProvider = (props) => {
     setSearch,
     filteredTasks,
     isLogin,
-    setIsLogin, user, setUser, formattedDate, importantTasks, selectedDate, setSelectedDate, plannedTasks
+    setIsLogin, user, setUser, formattedDate, importantTasks, selectedDate, setSelectedDate, plannedTasks, setReminder, reminder, reminderTasks
   };
   
   return (

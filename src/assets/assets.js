@@ -18,6 +18,8 @@ import plan_active_dark from "../assets/plan_active_dark.svg";
 import plan_active from "../assets/plan_active.svg";
 import assign_dark from "../assets/assign_dark.svg";
 import assign_active_dark from "../assets/assign_active_dark.svg";
+import bell_active_dark from "../assets/bell_active_dark.svg";
+import bell_active from "../assets/bell_active.svg";
 import assign_active from "../assets/assign_active.svg";
 import add_dark from "../assets/add_dark.svg";
 import bell_dark from "../assets/bell_dark.svg";
@@ -25,6 +27,7 @@ import repeat_dark from "../assets/repeat_dark.svg";
 import repeat from "../assets/repeat.svg";
 import bell from "../assets/bell.svg";
 import arrow_dark from "../assets/arrow_dark.svg";
+import arrow_white from "../assets/arrow_white.svg";
 import arrow from "../assets/arrow.svg";
 import logo from "../assets/logo.png";
 import grid from "../assets/grid.svg";
@@ -87,5 +90,5 @@ export const assets = {
   list,
   list_dark,
   cross,
-  cross_dark
+  cross_dark, bell_active, bell_active_dark, arrow_white
 };

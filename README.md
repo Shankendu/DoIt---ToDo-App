@@ -22,8 +22,8 @@ DoIt is a simple yet powerful To-Do application built with **React**, **Vite**, 
 ## 📦 Installation
 ```sh
 # Clone the repository
-git clone https://github.com/Shankendu/doit-todo.git
-cd doit-todo
+git clone https://github.com/Shankendu/DoIt---ToDo-App.git
+cd DoIt---ToDo-App
 
 # Install dependencies
 npm install

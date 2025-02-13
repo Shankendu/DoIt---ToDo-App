@@ -3,36 +3,38 @@ import { AppContext } from "../config/AppContext";
 import { assets } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 import Chart from "../components/Chart";
-import TodayChart from "../components/TodayChart";
-import ImportantChart from "../components/ImportantChart";
-import PlannedChart from "../components/PlannedChart";
 
 const Profile = () => {
-  const { isDarkMode, toggleDarkMode, user, tasks, todayTask, importantTasks, plannedTasks } =
+  const { isDarkMode, toggleDarkMode, user, tasks, todayTask, importantTasks, plannedTasks, reminderTasks } =
     useContext(AppContext);
   const navigate = useNavigate();
   const [activeChartTab, setActiveChartTab] = useState(0);
 
   const chartTabs = [
     {
-      name: "All Tasks",
+      name: "All",
       chart: Chart,
       data: tasks,
     },
     {
-      name: "Today's Task",
-      chart: TodayChart,
+      name: "Today",
+      chart: Chart,
       data: todayTask,
     },
     {
-      name: "Important Tasks",
-      chart: ImportantChart,
+      name: "Important",
+      chart: Chart,
       data: importantTasks,
     },
     {
-      name: "Planned Tasks",
-      chart: PlannedChart,
+      name: "Planned",
+      chart: Chart,
       data: plannedTasks,
+    },
+    {
+      name: "Reminder",
+      chart: Chart,
+      data: reminderTasks,
     },
   ];
 
@@ -45,11 +47,11 @@ const Profile = () => {
         <div className="flex gap-6 items-center">
           <img
             onClick={() => navigate("/tasks")}
-            className="w-6 h-6 cursor-pointer rotate-[-90deg]"
-            src={isDarkMode ? assets.arrow_dark : assets.arrow}
+            className="w-6 h-6 cursor-pointer rotate-90"
+            src={isDarkMode ? assets.arrow_white : assets.arrow}
             alt="menu"
           />
-          <img src={assets.logo} alt="logo" />
+          <img onClick={() => navigate("/tasks")} className="h-8 cursor-pointer" src={assets.logo} alt="logo" />
         </div>
         <div>
           <img
@@ -62,16 +64,16 @@ const Profile = () => {
       </div>
       {/* Main Screen */}
       <div className="pt-10 pb-5 flex items-center">
-        <div className="w-40 h-40 rounded-full overflow-hidden flex cursor-pointer items-center justify-center">
+        <div className="w-16 sm:w-20 h-16 sm:h-20 md:w-40 md:h-40 rounded-full overflow-hidden flex cursor-pointer items-center justify-center">
           <img src={assets.profile} alt="profile" />
         </div>
-        <div className="px-6 text-left text-[#1B281B] dark:text-[#EBEBEB] flex flex-col gap-2 items-start">
-          <h1 className="text-5xl font-bold">{user.name}</h1>
-          <p className="text-xl">{user.email}</p>
+        <div className="pl-6 text-left text-[#1B281B] dark:text-[#EBEBEB] flex flex-col gap-2 items-start">
+          <h1 className="text-2xl md:text-5xl font-bold">{user.name}</h1>
+          <p className="text-lg md:text-xl">{user.email}</p>
         </div>
       </div>
-      <div className="flex border border-[#496e4b33] dark:border-white">
-        <section className="basis-[50%] border-r border-[#496e4b33] dark:border-white pl-5 px-4">
+      <div className="flex flex-col md:flex-row border border-[#496e4b33] dark:border-white">
+        <section className="basis-full md:basis-[50%] border-r border-[#496e4b33] dark:border-white pl-5 py-4">
           <h1 className="text-3xl font-bold text-[#3F9142] pb-6">Tasks:</h1>
           <p className="text-xl text-[#1B281B] dark:text-[#EBEBEB] pb-2">
             Total Tasks: {tasks.length}
@@ -86,32 +88,32 @@ const Profile = () => {
             Planned Tasks: {tasks.length}
           </p>
         </section>
-        <section className=" basis-[50%]">
-          <div className=" flex text-[#1B281B] dark:text-[#EBEBEB] justify-between text-center">
+        <section className=" basis-full md:basis-[50%] border-t border-[#496e4b33] dark:border-white md:border-t-0 ">
+          <div className=" flex text-[#1B281B] dark:text-[#EBEBEB] md:justify-between justify-start text-center ">
             {chartTabs.map((tab, index) => (
               <p
                 key={index}
                 onClick={() => setActiveChartTab(index)}
-                className={`cursor-pointer px-4 py-2 border-t-0 border-l-0 last:border-r-0 border border-[#496e4b33] dark:border-white basis-[25%] ${activeChartTab === index ? "bg-[#357937] text-[#EBEBEB]" : "bg-[#FBFDFC] dark:bg-[#242424] text-[#1B281B] dark:text-[#EBEBEB]"} `}
+                className={`cursor-pointer basis-[20%] text-[8px] sm:text-xs md:text-sm px-2 py-2 md:px-4 md:py-2 border-t-0 border-l-0 last:border-r-0 border border-[#496e4b33] dark:border-white ${activeChartTab === index ? "bg-[#357937] text-[#EBEBEB]" : "bg-[#FBFDFC] dark:bg-[#242424] text-[#1B281B] dark:text-[#EBEBEB]"} `}
               >
                 {tab.name}
               </p>
             ))}
           </div>
           <div className=" w-full flex flex-col items-center justify-center py-5">
-            <div className=" h-72 w-72 flex items-center justify-between">
+            <div className=" h-44 md:h-64 w-44 md:w-64 flex items-center justify-between">
               {chartTabs[activeChartTab].data.length > 0 ? (
-                <ChartTab />
+                <ChartTab chartData={chartTabs[activeChartTab].data}/>
               ) : (
                 "No Data"
               )}
             </div>
-            <div className="px-4 w-full flex justify-start gap-5">
+            <div className="px-4 pt-4 w-full flex justify-start gap-5">
               <section className="flex gap-1 items-center">
                 <p
                   className={`${
                     isDarkMode ? "bg-[#3F9142]" : "bg-[#3F9142]"
-                  } w-8 h-8 rounded-full`}
+                  } w-6 h-6 rounded-full`}
                 ></p>
                 <p
                   className={`${
@@ -125,7 +127,7 @@ const Profile = () => {
                 <p
                   className={`${
                     isDarkMode ? "bg-[#A0EDA4]" : "bg-[#142E15]"
-                  } w-8 h-8 rounded-full`}
+                  } w-6 h-6 rounded-full`}
                 ></p>
                 <p
                   className={`${

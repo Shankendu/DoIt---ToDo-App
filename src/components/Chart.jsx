@@ -1,14 +1,15 @@
+/* eslint-disable react/prop-types */
 import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { AppContext } from "../config/AppContext";
 import { useContext } from "react";
 
-const Chart = () => {
+const Chart = ({chartData}) => {
   ChartJS.register(ArcElement, Tooltip);
-  const {tasks, isDarkMode} = useContext(AppContext);
+  const {isDarkMode} = useContext(AppContext);
 
-  const completedTasks = tasks.filter((task) => !task.isCompleted);
-  const incompletedTasks = tasks.filter((task) => task.isCompleted);
+  const completedTasks = chartData.filter((task) => !task.isCompleted);
+  const incompletedTasks = chartData.filter((task) => task.isCompleted);
 
 
   const data = {

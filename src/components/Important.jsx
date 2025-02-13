@@ -23,17 +23,17 @@ const Important = () => {
 
 
   return (
-    <div className={` flex h-screen ${menuOpen ? "gap-0" : "gap-12"}`}>
+    <div className={` flex h-[calc(100vh-50px)] md:h-[calc(100vh-57px)] ${menuOpen ? "gap-0" : "gap-12"}`}>
       <Sidebar name={"Important Tasks"} length={importantTasks.length} />
       {/* Main Screen */}
       <div
-        className={`max-h-[calc(100vh-56px)] relative ${
-          menuOpen ? "w-full" : "w-[83%]"
+        className={`min-h-[calc(100vh-57px)] overflow-y-scroll relative origin-top-right ${
+          menuOpen ? "w-full block" : "hidden md:block md:w-[83%] md:max-w-[83%]"
         }`}
       >
         {/* All Task Title */}
         <div
-          className={`pb-1 flex items-center gap-1 " border-b-[1.5px] border-b-[#496e4b33]`}
+          className={`px-1 flex items-center gap-1 " border-b-[1.5px] border-b-[#496e4b33]`}
         >
           <p className="text-xs font-medium dark:text-[#97F69B] text-[#142E15]">
             Important Tasks
@@ -52,10 +52,10 @@ const Important = () => {
 
         {/* Task List */}
         <div
-          className={`${
+          className={`overflow-scroll ${
             isGrid
-              ? "grid grid-cols-3 items-center justify-start w-full gap-3 pt-3"
-              : "flex flex-col justify-between items-center w-full"
+              ? "grid-cols-1 sm:grid-cols-2 grid md:grid-cols-3 items-center justify-start w-full gap-3 pt-3 text-sm md:text-base"
+              : "flex flex-col justify-between items-center w-full "
           }`}
         >
           {filteredTasks.find((task) => !task.isCompleted && task.important) ? (
@@ -81,7 +81,7 @@ const Important = () => {
                         className={`text-[#1B281B] dark:text-[#F5F5F5] flex items-center gap-4 cursor-pointer`}
                       >
                         <input
-                          className="size-5 appearance-none checked:appearance-auto border-2 border-[#1B281B] dark:border-[#F5F5F5] "
+                          className="size-3 md:size-5 appearance-none checked:appearance-auto border-2 border-[#1B281B] dark:border-[#F5F5F5] "
                           type="checkbox"
                           checked={task.isCompleted}
                           onChange={(e) => {
@@ -101,7 +101,7 @@ const Important = () => {
                       </label>
                       <img
                         onClick={() => handleChangeStar(index)}
-                        className="cursor-pointer"
+                        className="cursor-pointer size-4 md:size-6"
                         src={
                           isDarkMode
                             ? task.important
@@ -150,7 +150,7 @@ const Important = () => {
         </div>
 
         {/* Completed Task List */}
-        <div>
+        <div className="text-xs md:text-base">
           {tasks.find((task) => task.isCompleted && task.important) ? (
             tasks.map((task, index) => {
               return (
@@ -187,7 +187,7 @@ const Important = () => {
                         {task.text}
                       </label>
                     </section>
-                    <section className="cursor-pointer">
+                    <section className="cursor-pointer size-4 md:size-6">
                       <img
                         onClick={() => handleChangeStar(index)}
                         src={

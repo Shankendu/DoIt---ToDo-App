@@ -19,11 +19,15 @@ const AllTask = () => {
     isGrid,
     openButton,
     setOpenButton,
-    filteredTasks, selectedDate, setSelectedDate
+    filteredTasks,
+    selectedDate,
+    setSelectedDate,
+    reminder,
+    setReminder,
   } = useContext(AppContext);
 
   const [viewCalendar, setViewCalendar] = useState(false);
-
+  console.log(reminder);
   
 
   const handleChangeStar = (index) => {
@@ -34,16 +38,16 @@ const AllTask = () => {
   };
 
   const handleCalendarChange = (date) => {
-    setSelectedDate(date+"T00:00:00.000Z".split("T")[0]);
+    setSelectedDate(date + "T00:00:00.000Z".split("T")[0]);
   };
 
   return (
-    <div className={` flex h-screen ${menuOpen ? "gap-0" : "gap-12"}`}>
+    <div className={` flex h-[calc(100vh-50px)] md:h-[calc(100vh-57px)] ${menuOpen ? "gap-0" : "gap-12"}`}>
       <Sidebar name={"All Tasks"} length={tasks.length} />
       {/* Main Screen */}
       <div
-        className={`min-h-[calc(100vh-56px)] relative origin-top-right ${
-          menuOpen ? "w-full" : "w-[83%]"
+        className={`min-h-[calc(100vh-57px)] overflow-y-scroll relative origin-top-right ${
+          menuOpen ? "w-full block" : "hidden md:block md:w-[83%] md:max-w-[83%]"
         }`}
       >
         {/* Title */}
@@ -91,33 +95,50 @@ const AllTask = () => {
             )}
           </form>
           <div className="py-4 px-[20px] flex justify-between items-center">
-            <section className="flex gap-5">
+            <section className="flex gap-5 relative">
               <img
-                className="size-6 cursor-pointer"
-                src={isDarkMode ? assets.bell_dark : assets.bell}
+                onClick={() => setReminder(!reminder)}
+                className="size-4 md:size-6 cursor-pointer"
+                src={reminder ? isDarkMode ? assets.bell_active_dark : assets.bell_active : isDarkMode? assets.bell_dark : assets.bell}
                 alt="bell"
               />
               <img
-                className="size-6 cursor-pointer"
+                className="size-4 md:size-6 cursor-pointer"
                 src={isDarkMode ? assets.repeat_dark : assets.repeat}
                 alt="repeat"
               />
-              <div className="relative">
+              <div className="">
                 <img
-                  className="size-6 cursor-pointer "
-                  src={viewCalendar ? isDarkMode ? assets.calendar_active_dark : assets.calendar_active : isDarkMode ? assets.calendar_dark : assets.calendar}
+                  className="size-4 md:size-6 cursor-pointer "
+                  src={
+                    viewCalendar
+                      ? isDarkMode
+                        ? assets.calendar_active_dark
+                        : assets.calendar_active
+                      : isDarkMode
+                      ? assets.calendar_dark
+                      : assets.calendar
+                  }
                   alt="calendar"
                   onClick={() => setViewCalendar(!viewCalendar)}
                 />
-                <div className="absolute left-[0%] top-6 h-20 w-80 ">
-                  <Calendar locale="en-GB" value={selectedDate} onChange={(date) => handleCalendarChange(date)} className={`bg-[#35793729] ${viewCalendar ? "block" : "hidden"}`}/>
+                <div className="absolute scale-75 z-30 left-[0%] top-6 h-20 w-80 ">
+                  <Calendar
+                  style={{ height: "100%", width: "100%" }}
+                    locale="en-GB"
+                    value={selectedDate}
+                    onChange={(date) => handleCalendarChange(date)}
+                    className={`bg-[#35793729] text-sm ${
+                      viewCalendar ? "block" : "hidden"
+                    }`}
+                  />
                 </div>
               </div>
             </section>
             <section>
               <button
                 onClick={addTask}
-                className="border-none cursor-pointer px-4 py-2 bg-[#35793729] dark:bg-[#357937e0] dark:text-[#cfcfcfff] text-[#357937ff] rounded-lg"
+                className="border-none cursor-pointer px-2 py-1 md:text-base sm:text-sm text-xs md:px-4 md:py-2 bg-[#35793729] dark:bg-[#357937e0] dark:text-[#cfcfcfff] text-[#357937ff] rounded-lg"
               >
                 ADD TASK
               </button>
@@ -150,10 +171,10 @@ const AllTask = () => {
 
         {/* Task List */}
         <div
-          className={`${
+          className={`overflow-scroll ${
             isGrid
-              ? "grid grid-cols-3 items-center justify-start w-full gap-3 pt-3"
-              : "flex flex-col justify-between items-center w-full"
+              ? "grid-cols-1 sm:grid-cols-2 grid md:grid-cols-3 items-center justify-start w-full gap-3 pt-3 text-sm md:text-base"
+              : "flex flex-col justify-between items-center w-full "
           }`}
         >
           {filteredTasks.find((task) => !task.isCompleted) ? (
@@ -179,7 +200,7 @@ const AllTask = () => {
                         className={`text-[#1B281B] dark:text-[#F5F5F5] flex items-center gap-4 cursor-pointer`}
                       >
                         <input
-                          className="size-5 appearance-none checked:appearance-auto border-2 border-[#1B281B] dark:border-[#F5F5F5] "
+                          className="size-3 md:size-5 appearance-none checked:appearance-auto border-2 border-[#1B281B] dark:border-[#F5F5F5] "
                           type="checkbox"
                           checked={task.isCompleted}
                           onChange={(e) => {
@@ -198,7 +219,7 @@ const AllTask = () => {
                         {task.text}
                       </label>
                       <img
-                        className="cursor-pointer"
+                        className="cursor-pointer size-4 md:size-6"
                         onClick={() => handleChangeStar(index)}
                         src={
                           isDarkMode
@@ -248,7 +269,7 @@ const AllTask = () => {
         </div>
 
         {/* Completed Task List */}
-        <div>
+        <div className="text-xs md:text-base">
           {tasks.some((task) => task.isCompleted) ? (
             tasks.map((task, index) => {
               return (
@@ -266,7 +287,7 @@ const AllTask = () => {
                         }`}
                       >
                         <input
-                          className="size-5 appearance-none checked:appearance-auto accent-[#3F9142]"
+                          className="size-3 md:size-5 appearance-none checked:appearance-auto accent-[#3F9142]"
                           type="checkbox"
                           checked={task.isCompleted}
                           onChange={(e) => {
@@ -285,7 +306,7 @@ const AllTask = () => {
                         {task.text}
                       </label>
                     </section>
-                    <section className="cursor-pointer">
+                    <section className="cursor-pointer size-4 md:size-6">
                       <img
                         onClick={() => handleChangeStar(index)}
                         src={

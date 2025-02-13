@@ -18,8 +18,8 @@ const Sidebar = ({ name, length }) => {
 
   return (
     <div
-      className={`h-[calc(100vh-56px)] transition-all duration-500 ease-in-out relative overflow-hidden ${
-        menuOpen ? "w-0 opacity-0" : "w-[17%] opacity-100"
+      className={`h-[calc(100vh-50px)] md:h-[calc(100vh-57px)] transition-all duration-500 ease-in-out relative overflow-hidden ${
+        menuOpen ? "w-0" : "w-full md:max-w-[25%]"
       }`}
     >
       <div className="bg-[#EEF6EF] dark:bg-[#2C2C2C] min-h-[calc(100vh-175px)] translate-y-[13%] relative px-[9px]">
@@ -57,7 +57,7 @@ const Sidebar = ({ name, length }) => {
                   className={`flex items-center gap-4 px-4 py-2 cursor-pointer ${
                     activeTab === index
                       ? "bg-[#35793729] dark:bg-[#35793729] text-[#357937] dark:text-[#98e19bff] rounded-full"
-                      : "bg-[#FBFDFC] dark:bg-[#232323] dark:text-[#EBEBEB] text-[#1B281B] rounded-none"
+                      : "bg-[#FBFDFC] dark:bg-[#232323] dark:text-[#EBEBEB] text-[#1B281B] rounded-none hover:bg-[#EEF6EF] dark:hover:bg-[#2C2C2C] transition-all duration-300 hover:rounded-full"
                   }`}
                 >
                   <img
@@ -104,9 +104,9 @@ const Sidebar = ({ name, length }) => {
             </div>
             <div className="px-4 pt-4 pb-2 w-full h-full">
               <div className="h-full w-full flex items-end justify-center">
-                <div className="h-[100px] w-[100px] flex items-center justify-center">
+                <div className="h-[120px] md:h-[100px] w-[120px] md:w-[100px] flex items-center justify-center">
                   {tabs[activeTab].data.length > 0 ? (
-                    <ActiveChart />
+                    <ActiveChart chartData={tabs[activeTab].data} />
                   ) : (
                     "No Data"
                   )}
