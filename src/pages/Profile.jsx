@@ -47,7 +47,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="w-full overflow-scroll h-screen dark:bg-[#242424] bg-[#FBFDFC] px-12">
+    <div className="w-full overflow-scroll h-screen dark:bg-[#242424] bg-[#FBFDFC] px-5 md:px-12">
       {/* Navbar */}
       <div className="flex justify-between items-center py-3">
         <div className="flex gap-6 items-center">
