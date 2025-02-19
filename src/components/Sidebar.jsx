@@ -108,7 +108,7 @@ const Sidebar = ({ name, length }) => {
                   {tabs[activeTab].data.length > 0 ? (
                     <ActiveChart chartData={tabs[activeTab].data} />
                   ) : (
-                    "No Data"
+                    <p className="dark:text-[#EBEBEB] text-[#1B281B] text-center">No Data</p>
                   )}
                 </div>
               </div>
