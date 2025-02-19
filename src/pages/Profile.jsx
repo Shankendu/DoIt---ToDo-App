@@ -47,7 +47,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="w-full overflow-scroll h-screen dark:bg-[#242424] bg-[#FBFDFC] px-5 md:px-12">
+    <div className="w-full overflow-scroll h-screen dark:bg-[#242424] bg-[#FBFDFC] px-5 md:px-12 pb-10">
       {/* Navbar */}
       <div className="flex justify-between items-center py-3">
         <div className="flex gap-6 items-center">
@@ -120,12 +120,12 @@ const Profile = () => {
                 <p
                   className={`${
                     isDarkMode ? "bg-[#3F9142]" : "bg-[#3F9142]"
-                  } w-6 h-6 rounded-full`}
+                  } h-3 w-3 md:w-6 md:h-6 rounded-full`}
                 ></p>
                 <p
                   className={`${
                     isDarkMode ? "text-[#EBEBEB]" : "text-[#1B281B]"
-                  } text-lg`}
+                  } text-sm md:text-lg`}
                 >
                   Pending
                 </p>
@@ -134,12 +134,12 @@ const Profile = () => {
                 <p
                   className={`${
                     isDarkMode ? "bg-[#A0EDA4]" : "bg-[#142E15]"
-                  } w-6 h-6 rounded-full`}
+                  } h-3 w-3 md:w-6 md:h-6 rounded-full`}
                 ></p>
                 <p
                   className={`${
                     isDarkMode ? "text-[#EBEBEB]" : "text-[#1B281B]"
-                  } text-lg`}
+                  } text-sm md:text-lg`}
                 >
                   Done
                 </p>
