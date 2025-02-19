@@ -33,7 +33,7 @@ import logo from "../assets/logo.png";
 import grid from "../assets/grid.svg";
 import moon from "../assets/moon.svg";
 import search from "../assets/search.svg";
-import profile from "../assets/image.jpg";
+import image from "../assets/image.jpg";
 import star from "../assets/star.svg";
 import calendar from "../assets/calendar.svg";
 import assign from "../assets/assign.svg";
@@ -46,6 +46,8 @@ import list_dark from "../assets/list_dark.svg";
 import cross_dark from "../assets/cross_dark.svg";
 import dotMenu_dark from "../assets/dotMenu_dark.svg";
 import dotMenu from "../assets/dotMenu.svg";
+import profile from "../assets/profile.svg";
+import profile_dark from "../assets/profile_dark.svg";
 import cross from "../assets/cross.svg";
 
 export const assets = {
@@ -92,5 +94,5 @@ export const assets = {
   list,
   list_dark,
   cross,
-  cross_dark, bell_active, bell_active_dark, arrow_white, dotMenu, dotMenu_dark
+  cross_dark, bell_active, bell_active_dark, arrow_white, dotMenu, dotMenu_dark, image, profile_dark
 };

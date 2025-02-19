@@ -24,14 +24,14 @@ const Sidebar = ({ name, length }) => {
     >
       <div className="bg-[#EEF6EF] dark:bg-[#2C2C2C] min-h-[calc(100vh-175px)] translate-y-[13%] relative px-[9px]">
         {/* Profile Container */}
-        <div className="flex flex-col items-center w-full justify-center translate-y-[-50%] relative group">
+        <div className="flex flex-col items-center w-full justify-center translate-y-[-60%]  md:translate-y-[-50%] relative group">
           <div className="w-24 h-24 rounded-full overflow-hidden flex cursor-pointer items-center justify-center group">
-            <img className="" src={assets.profile} alt="profile" />
+            <img className="" src={assets.image} alt="profile" />
           </div>
           <p className="font-medium pt-2 dark:text-[#EBEBEB] text-[#1B281B]">
             Hey, {user.name}
           </p>
-          <div className="top-0 opacity-0 group-hover:opacity-100 group-hover:flex group-hover:top-20 absolute w-[100px] flex-col items-center justify-center z-20 shadow-lg text-center transition-all duration-300">
+          <div className="top-24 translate-y-[100%] opacity-0 group-hover:opacity-100 hidden md:flex group-hover:translate-y-0 absolute w-[100px] flex-col items-center justify-center z-30 shadow-lg text-center transition-all duration-300">
             <div
               onClick={() => navigate("/profile")}
               className="px-4 py-2 w-full border-b border-b-[#496e4b33] cursor-pointer bg-white hover:bg-gray-100 transition-all duration-300"
@@ -82,6 +82,12 @@ const Sidebar = ({ name, length }) => {
             <img src={isDarkMode ? assets.add_dark : assets.add} alt="add" />
             <p className="font-medium text-sm text-[#1B281B] dark:text-[#EBEBEB]">
               Add List
+            </p>
+          </div>
+          <div onClick={() => navigate("/profile")} className="bg-[#FBFDFC] dark:bg-[#232323] gap-4 px-4 py-2 mt-2 flex md:hidden items-center">
+            <img src={isDarkMode ? assets.profile_dark : assets.profile} alt="profile" />
+            <p className="font-medium text-sm text-[#1B281B] dark:text-[#EBEBEB]">
+              Profile
             </p>
           </div>
           <div className="bg-[#FBFDFC] dark:bg-[#232323] mt-2 flex-col">

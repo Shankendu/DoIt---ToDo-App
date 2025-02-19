@@ -40,6 +40,12 @@ const Profile = () => {
 
   const ChartTab = chartTabs[activeChartTab].chart;
 
+  const handleLogout = () => {
+    localStorage.removeItem("login");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+
   return (
     <div className="w-full overflow-scroll h-screen dark:bg-[#242424] bg-[#FBFDFC] px-12">
       {/* Navbar */}
@@ -47,15 +53,16 @@ const Profile = () => {
         <div className="flex gap-6 items-center">
           <img
             onClick={() => navigate("/tasks")}
-            className={`w-6 h-6 cursor-pointer  ${isDarkMode ? "rotate-90" : "-rotate-90"}`}
+            className={`w-4 h-4 md:w-6 md:h-6 cursor-pointer  ${isDarkMode ? "rotate-90" : "-rotate-90"}`}
             src={isDarkMode ? assets.arrow_white : assets.arrow}
             alt="menu"
           />
           <img onClick={() => navigate("/tasks")} className="h-8 cursor-pointer" src={assets.logo} alt="logo" />
         </div>
-        <div>
+        <div className="flex gap-4 items-center">
+        <button onClick={() => handleLogout()} className="hover:bg-red-500 outline-none text-[#1B281B] dark:text-white px-2 py-0.5 md:px-4 md:py-1 rounded-full text-xs md:text-sm border border-red-500">Logout</button>
           <img
-            className="w-6 h-6 cursor-pointer"
+            className="w-4 h-4 md:w-6 md:h-6 cursor-pointer"
             src={isDarkMode ? assets.sun : assets.moon}
             alt="moon"
             onClick={toggleDarkMode}
@@ -64,8 +71,8 @@ const Profile = () => {
       </div>
       {/* Main Screen */}
       <div className="pt-10 pb-5 flex items-center">
-        <div className="w-16 sm:w-20 h-16 sm:h-20 md:w-40 md:h-40 rounded-full overflow-hidden flex cursor-pointer items-center justify-center">
-          <img src={assets.profile} alt="profile" />
+        <div className="min-w-12 sm:w-20 min-h-12 sm:h-20 md:w-40 md:h-40 rounded-full overflow-hidden flex cursor-pointer items-center justify-center">
+          <img src={assets.image} alt="profile" />
         </div>
         <div className="pl-6 text-left text-[#1B281B] dark:text-[#EBEBEB] flex flex-col gap-2 items-start">
           <h1 className="text-2xl md:text-5xl font-bold">{user.name}</h1>
