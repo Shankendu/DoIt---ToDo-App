@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { AppContext } from "../config/AppContext";
 import Sidebar from "./Sidebar";
 import { assets } from "../assets/assets";

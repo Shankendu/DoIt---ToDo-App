@@ -21,6 +21,13 @@ const Planned = () => {
     localStorage.setItem("tasks", JSON.stringify(newTasks));
   };
 
+const getPlannedDate = (index) => {
+  const dateString = tasks[index].plannedDate;
+  const date = new Date(dateString);
+  const formattedDate = date.toLocaleDateString("en-GB");
+  return formattedDate;
+}
+
 
   return (
     <div className={` flex h-[calc(100vh-50px)] md:h-[calc(100vh-57px)] ${menuOpen ? "gap-0" : "gap-12"}`}>
@@ -78,7 +85,7 @@ const Planned = () => {
                       }`}
                     >
                       <label
-                        className={`text-[#1B281B] dark:text-[#F5F5F5] flex items-center gap-4 cursor-pointer`}
+                        className={`text-[#1B281B]/80 dark:text-[#F5F5F5]/80 flex items-center gap-4 cursor-pointer`}
                       >
                         <input
                           className="size-3 md:size-5 appearance-none checked:appearance-auto border-2 border-[#1B281B] dark:border-[#F5F5F5] "
@@ -99,6 +106,7 @@ const Planned = () => {
                         />
                         {task.text}
                       </label>
+                      <p className="text-[#1B281B] dark:text-[#F5F5F5] text-xs">{getPlannedDate(index)}</p>
                       <img
                         onClick={() => handleChangeStar(index)}
                         className="cursor-pointer size-4 md:size-6"
