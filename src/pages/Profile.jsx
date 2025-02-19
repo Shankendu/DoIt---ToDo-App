@@ -80,7 +80,7 @@ const Profile = () => {
         </div>
       </div>
       <div className="flex flex-col md:flex-row border border-[#496e4b33] dark:border-white">
-        <section className="basis-full md:basis-[50%] border-r border-[#496e4b33] dark:border-white pl-5 py-4">
+        <section className="basis-full md:basis-[50%] border-0 md:border-r border-[#496e4b33] dark:border-white pl-5 py-4">
           <h1 className="text-3xl font-bold text-[#3F9142] pb-6">Tasks:</h1>
           <p className="text-xl text-[#1B281B] dark:text-[#EBEBEB] pb-2">
             Total Tasks: {tasks.length}
