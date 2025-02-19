@@ -47,7 +47,7 @@ const Profile = () => {
         <div className="flex gap-6 items-center">
           <img
             onClick={() => navigate("/tasks")}
-            className="w-6 h-6 cursor-pointer rotate-90"
+            className={`w-6 h-6 cursor-pointer  ${isDarkMode ? "rotate-90" : "-rotate-90"}`}
             src={isDarkMode ? assets.arrow_white : assets.arrow}
             alt="menu"
           />
@@ -101,11 +101,11 @@ const Profile = () => {
             ))}
           </div>
           <div className=" w-full flex flex-col items-center justify-center py-5">
-            <div className=" h-44 md:h-64 w-44 md:w-64 flex items-center justify-between">
+            <div className=" h-44 md:h-64 w-44 md:w-64 flex items-center justify-center ">
               {chartTabs[activeChartTab].data.length > 0 ? (
                 <ChartTab chartData={chartTabs[activeChartTab].data}/>
               ) : (
-                "No Data"
+                <p className="dark:text-[#EBEBEB] text-[#1B281B] text-center">No Data</p>
               )}
             </div>
             <div className="px-4 pt-4 w-full flex justify-start gap-5">

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AppContext } from "../config/AppContext";
 import Sidebar from "./Sidebar";
 import { assets } from "../assets/assets";
@@ -27,8 +27,9 @@ const AllTask = () => {
   } = useContext(AppContext);
 
   const [viewCalendar, setViewCalendar] = useState(false);
-  console.log(reminder);
-  
+  const [viewMenu, setViewMenu] = useState(null);
+  const [editTask, setEditTask] = useState(null);
+  const menuRef = useRef(null);
 
   const handleChangeStar = (index) => {
     let newTasks = [...tasks];
@@ -41,13 +42,69 @@ const AllTask = () => {
     setSelectedDate(date + "T00:00:00.000Z".split("T")[0]);
   };
 
+  const handleMenu = (index) => {
+    setViewMenu((prev) => (prev === index ? null : index));
+  };
+
+  const handleDelete = (index) => {
+    let newTasks = [...tasks];
+    newTasks.splice(index, 1);
+    setTasks(newTasks);
+    localStorage.setItem("tasks", JSON.stringify(newTasks));
+  };
+
+  const handleEdit = (index) => {
+    setInput(tasks[index].text);
+    setReminder(tasks[index].reminder);
+    setSelectedDate(tasks[index].plannedDate);
+    setEditTask(index);
+  };
+
+  const saveTask = (e) => {
+    e.preventDefault();
+    const updatedTasks = [...tasks];
+    if (input.trim() !== "") {
+      updatedTasks[editTask].text = input;
+      updatedTasks[editTask].reminder = reminder;
+      updatedTasks[editTask].plannedDate = selectedDate;
+      setTasks(updatedTasks);
+      setInput("");
+      setReminder(false);
+      setEditTask(null);
+      setError({ isError: false, text: "" });
+      localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+    } else {
+      setError({ isError: true, text: "Please enter a task" });
+    }
+  };
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (
+  //       menuRef.current &&
+  //       !menuRef.current.contains(event.target)
+  //     ) {
+  //       setViewMenu(null);
+  //     }
+  //   };
+
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [viewMenu]);
   return (
-    <div className={` flex h-[calc(100vh-50px)] md:h-[calc(100vh-57px)] ${menuOpen ? "gap-0" : "gap-12"}`}>
+    <div
+      className={` flex h-[calc(100vh-50px)] md:h-[calc(100vh-57px)] ${
+        menuOpen ? "" : "gap-12"
+      }`}
+    >
       <Sidebar name={"All Tasks"} length={tasks.length} />
       {/* Main Screen */}
       <div
         className={`min-h-[calc(100vh-57px)] overflow-y-scroll relative origin-top-right ${
-          menuOpen ? "w-full block" : "hidden md:block md:w-[83%] md:max-w-[83%]"
+          menuOpen
+            ? "w-full block"
+            : "hidden md:block md:w-[83%] md:max-w-[83%]"
         }`}
       >
         {/* Title */}
@@ -99,7 +156,15 @@ const AllTask = () => {
               <img
                 onClick={() => setReminder(!reminder)}
                 className="size-4 md:size-6 cursor-pointer"
-                src={reminder ? isDarkMode ? assets.bell_active_dark : assets.bell_active : isDarkMode? assets.bell_dark : assets.bell}
+                src={
+                  reminder
+                    ? isDarkMode
+                      ? assets.bell_active_dark
+                      : assets.bell_active
+                    : isDarkMode
+                    ? assets.bell_dark
+                    : assets.bell
+                }
                 alt="bell"
               />
               <img
@@ -124,7 +189,7 @@ const AllTask = () => {
                 />
                 <div className="absolute scale-75 z-30 left-[0%] top-6 h-20 w-80 ">
                   <Calendar
-                  style={{ height: "100%", width: "100%" }}
+                    style={{ height: "100%", width: "100%" }}
                     locale="en-GB"
                     value={selectedDate}
                     onChange={(date) => handleCalendarChange(date)}
@@ -136,12 +201,21 @@ const AllTask = () => {
               </div>
             </section>
             <section>
-              <button
-                onClick={addTask}
-                className="border-none cursor-pointer px-2 py-1 md:text-base sm:text-sm text-xs md:px-4 md:py-2 bg-[#35793729] dark:bg-[#357937e0] dark:text-[#cfcfcfff] text-[#357937ff] rounded-lg"
-              >
-                ADD TASK
-              </button>
+              {editTask === null ? (
+                <button
+                  onClick={addTask}
+                  className="border-none cursor-pointer px-2 py-1 md:text-base sm:text-sm text-xs md:px-4 md:py-2 bg-[#35793729] dark:bg-[#357937e0] dark:text-[#cfcfcfff] text-[#357937ff] rounded-lg"
+                >
+                  ADD TASK
+                </button>
+              ) : (
+                <button
+                  onClick={saveTask}
+                  className="border-none cursor-pointer px-2 py-1 md:text-base sm:text-sm text-xs md:px-4 md:py-2 bg-[#35793729] dark:bg-[#357937e0] dark:text-[#cfcfcfff] text-[#357937ff] rounded-lg"
+                >
+                  SAVE TASK
+                </button>
+              )}
             </section>
           </div>
         </div>
@@ -183,7 +257,9 @@ const AllTask = () => {
                 !task.isCompleted && (
                   <div
                     key={index}
-                    className={`${openButton.openTask ? "hidden" : "block"} ${
+                    className={`overflow-visible ${
+                      openButton.openTask ? "hidden" : "block"
+                    } ${
                       isGrid
                         ? "w-full border-[1.5px] border-[#496e4b33] py-4 px-[20px]"
                         : "w-full py-4 pr-8 pl-[20px] border-b-[1.5px] border-b-[#496e4b33]"
@@ -218,20 +294,59 @@ const AllTask = () => {
                         />
                         {task.text}
                       </label>
-                      <img
-                        className="cursor-pointer size-4 md:size-6"
-                        onClick={() => handleChangeStar(index)}
-                        src={
-                          isDarkMode
-                            ? task.important
-                              ? assets.star_solid_dark
-                              : assets.star_dark
-                            : task.important
-                            ? assets.star_solid
-                            : assets.star
-                        }
-                        alt="star"
-                      />
+                      <div className="flex gap-5 relative overflow-visible">
+                        <img
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleMenu(index);
+                          }}
+                          className="cursor-pointer size-4 md:size-6"
+                          src={
+                            isDarkMode ? assets.dotMenu_dark : assets.dotMenu
+                          }
+                          alt="menu"
+                        />
+                        <div
+                          ref={menuRef}
+                          onClick={(e) => e.stopPropagation()}
+                          className={`top-[-8px] right-16 z-50 absolute items-center justify-center shadow-lg text-center transition-all duration-300 ${
+                            viewMenu === index ? "flex" : "hidden"
+                          }`}
+                        >
+                          <div
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleEdit(index);
+                            }}
+                            className="px-4 py-2 w-full border-r border-r-[#496e4b33] cursor-pointer bg-white hover:bg-gray-100 transition-all duration-300"
+                          >
+                            <p className="text-sm">Edit</p>
+                          </div>
+                          <div
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDelete(index);
+                            }}
+                            className="px-4 py-2 cursor-pointer w-full text-red-500 bg-white hover:bg-gray-100 transition-all duration-300"
+                          >
+                            <p className="text-sm">Delete</p>
+                          </div>
+                        </div>
+                        <img
+                          className="cursor-pointer size-4 md:size-6"
+                          onClick={() => handleChangeStar(index)}
+                          src={
+                            isDarkMode
+                              ? task.important
+                                ? assets.star_solid_dark
+                                : assets.star_dark
+                              : task.important
+                              ? assets.star_solid
+                              : assets.star
+                          }
+                          alt="star"
+                        />
+                      </div>
                     </section>
                   </div>
                 )
@@ -306,8 +421,41 @@ const AllTask = () => {
                         {task.text}
                       </label>
                     </section>
-                    <section className="cursor-pointer size-4 md:size-6">
+                    <section className="flex gap-5 relative overflow-visible">
                       <img
+                        onClick={() => handleMenu(index)}
+                        className="cursor-pointer size-4 md:size-6"
+                        src={isDarkMode ? assets.dotMenu_dark : assets.dotMenu}
+                        alt="menu"
+                      />
+                      <div
+                        ref={menuRef}
+                        onClick={(e) => e.stopPropagation()}
+                        className={`top-[-8px] right-16 z-50 absolute items-center justify-center shadow-lg text-center transition-all duration-300 ${
+                          viewMenu === index ? "flex" : "hidden"
+                        }`}
+                      >
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleEdit(index);
+                          }}
+                          className="px-4 py-2 w-full border-r border-r-[#496e4b33] cursor-pointer bg-white hover:bg-gray-100 transition-all duration-300"
+                        >
+                          <p className="text-sm">Edit</p>
+                        </div>
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDelete(index);
+                          }}
+                          className="px-4 py-2 cursor-pointer w-full text-red-500 bg-white hover:bg-gray-100 transition-all duration-300"
+                        >
+                          <p className="text-sm">Delete</p>
+                        </div>
+                      </div>
+                      <img
+                        className="cursor-pointer size-4 md:size-6"
                         onClick={() => handleChangeStar(index)}
                         src={
                           isDarkMode
@@ -336,6 +484,8 @@ const AllTask = () => {
           )}
         </div>
       </div>
+
+      {/* Task Settings */}
     </div>
   );
 };

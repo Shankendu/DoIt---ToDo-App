@@ -18,7 +18,7 @@ const Sidebar = ({ name, length }) => {
 
   return (
     <div
-      className={`h-[calc(100vh-50px)] md:h-[calc(100vh-57px)] transition-all duration-500 ease-in-out relative overflow-hidden ${
+      className={`h-[calc(100vh-50px)] md:h-[calc(100vh-57px)] transition-all duration-500 ease-out origin-left relative overflow-hidden ${
         menuOpen ? "w-0" : "w-full md:max-w-[25%]"
       }`}
     >

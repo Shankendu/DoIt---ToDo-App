@@ -44,6 +44,8 @@ import sun from "../assets/sun.svg";
 import list from "../assets/list.svg";
 import list_dark from "../assets/list_dark.svg";
 import cross_dark from "../assets/cross_dark.svg";
+import dotMenu_dark from "../assets/dotMenu_dark.svg";
+import dotMenu from "../assets/dotMenu.svg";
 import cross from "../assets/cross.svg";
 
 export const assets = {
@@ -90,5 +92,5 @@ export const assets = {
   list,
   list_dark,
   cross,
-  cross_dark, bell_active, bell_active_dark, arrow_white
+  cross_dark, bell_active, bell_active_dark, arrow_white, dotMenu, dotMenu_dark
 };

@@ -38,8 +38,8 @@ const Navbar = () => {
       {/* Nav-Right */}
       <div className="flex gap-3 md:gap-6 items-center">
         <input
-          className={`placeholder:text-[#1b281bb8] text-[#1b281bb8] dark:text-[#ffffffff] dark:placeholder:text-[#ffffffff] outline-none border [#496e4b33] dark:border-[#ffffff33] w-[100px] py-1 px-2  md:py-2 md:px-4 rounded-full text-xs transition-all duration-500 ease-in-out origin-right ${
-            showSearch ? "scale-x-100" : "scale-x-0"
+          className={`placeholder:text-[#1b281bb8] text-[#1b281bb8] dark:text-[#ffffffff] dark:placeholder:text-[#ffffffff] outline-none  rounded-full text-xs transition-all duration-500 ease-in-out origin-right ${
+            showSearch ? "w-[100px] md:w-[200px] py-1 px-2 md:py-2 md:px-4 border [#496e4b33] dark:border-[#ffffff33]" : "w-0 md:w-[0px] py-0 px-0 md:py-0 md:px-0 border-0"
           }`}
           type="text"
           placeholder="Search"

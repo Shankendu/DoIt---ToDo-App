@@ -12,7 +12,7 @@ import Reminder from "../components/Reminder";
 export const AppContext = createContext();
 
 export const ContextProvider = (props) => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(true);
   const [isGrid, setIsGrid] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [isDarkMode, setIsDarkMode] = useState(false);
